@@ -1,11 +1,23 @@
 // 4.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <iostream>
+#include "input.h"
+#include "compute.h"
+#include "constexpr.h"
 
+/*
+    On MSVC you need to update the constexpr limits and compiler
+    because the recursion for part 2 is too difficult for intellisense.
+
+    I set them to huge numbers i.e. /constexpr:depth20000 /constexpr:steps100000000 
+
+    And it compiled after about 1 minute.
+*/
 int main()
 {
-    std::cout << "Hello World!\n";
+    constexpr Result puzzle_four = sum_results(input);
+
+    constexpr size_t num = count_scratchcards(input);
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

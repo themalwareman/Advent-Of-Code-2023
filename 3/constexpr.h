@@ -34,7 +34,7 @@ constexpr size_t grab_num(const char(&input)[N], size_t index)
 	size_t tracker = index;
 
 	// Walk back to start of num
-	while (('0' <= input[tracker] && input[tracker] <= '9') && ('0' <= input[tracker - 1] && input[tracker - 1] <= '9'))
+	while (('0' <= input[tracker] && input[tracker] <= '9') && tracker > 0 && ('0' <= input[tracker - 1] && input[tracker - 1] <= '9'))
 	{
 		tracker--;
 	}
