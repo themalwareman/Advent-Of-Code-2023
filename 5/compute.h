@@ -77,7 +77,13 @@ constexpr Result Compute(const size_t(&input)[N])
 
 	for (int i = 0; i < _countof(humidity_to_location); i++)
 	{
+		// Start with the next lowest location range
 		Range search = get_next_lowest(curr, humidity_to_location);
+
+		// For this humidity input range get valid ranges for the previous step
+		// No step has more than 30 ranges
+		rng valid_ranges[30];
+		get_valid_ranges()
 
 		
 	}
@@ -91,7 +97,7 @@ constexpr Result Compute(const size_t(&input)[N])
 /*
 			Is there a gap betrween the last range and this one, if so
 			we need to try those too
-		*/
+		/
 
 for (size_t j = curr_max; j < search.dest; j++)
 {

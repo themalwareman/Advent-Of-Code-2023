@@ -35,8 +35,36 @@ constexpr void get_valid_ranges(const size_t(&map)[N][3], rng(&inout)[M])
 	// The new output to write over the input
 	rng newout[M]{};
 
-	// Default is same number but will change if found in a mapping
-	size_t ret = input;
+	for (int i = 0; i < M; i++)
+	{
+		// Check for end of array
+		if (inout[i].len == 0)
+		{
+			break;
+		}
+
+		// Otheriwse this is a valid range
+		for (int j = 0; j < N; j++)
+		{
+			// For each map output
+
+			/*
+				Say for example we have a target output of 0->63 mill i.e. the first back propagate case
+
+				We want any map dest that overlaps with that
+
+				We have 6 overlap cases
+				- our range fits entirely within the map outout
+				- our range starts inside but finishes outside
+				- our range starts outside but finishes inside
+				- our range starts before and ends after
+				- our range starts and ends before
+				- our range starts and ends after
+			*/
+
+			if(inout[i].start > map[j][0] && (inout[i].start + inout[i].))
+		}
+	}
 
 
 	// Dest, src, len
