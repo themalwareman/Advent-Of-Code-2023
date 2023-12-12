@@ -68,27 +68,57 @@ constexpr Result Compute(const size_t(&input)[N])
 		with a seed input and try those inputs
 	*/
 
+	rng valid_ranges[1000]{};
+
+	// Set our target ouput
+	valid_ranges[0] = { 0, 10'000'000 };
+
+	// Back propagate the ranges
+	get_valid_ranges(humidity_to_location, valid_ranges);
+	get_valid_ranges(temperature_to_humidity, valid_ranges);
+	get_valid_ranges(light_to_temperature, valid_ranges);
+	get_valid_ranges(water_to_light, valid_ranges);
+	get_valid_ranges(fertilizer_to_water, valid_ranges);
+	get_valid_ranges(soil_to_fertilizer, valid_ranges);
+	get_valid_ranges(seed_to_soil, valid_ranges);
+
+	// Get valid overlaps of seed ranges and viable inputs
+	get_valid_overlaps(seeds, valid_ranges);
 
 
-	size_t curr = 0;
-	size_t curr_max = 0;
-	size_t result = 0;
-	size_t result_loc = 0;
+	size_t lowest_loc_2 = -1;
+	size_t low_seed = 0;
 
-	for (int i = 0; i < _countof(humidity_to_location); i++)
+	// For each seed range output
+	for (int i = 0; i < 1000; i++)
 	{
-		// Start with the next lowest location range
-		Range search = get_next_lowest(curr, humidity_to_location);
+		// Break when we hit the end
+		if (valid_ranges[i].len == 0)
+		{
+			break;
+		}
 
-		// For this humidity input range get valid ranges for the previous step
-		// No step has more than 30 ranges
-		rng valid_ranges[30];
-		get_valid_ranges()
+		// We need only to consider the seed at the bottom end of the range
+		size_t seed = valid_ranges[i].start;
+
+		size_t soil = map_to_next(seed, seed_to_soil);
+		size_t fert = map_to_next(soil, soil_to_fertilizer);
+		size_t water = map_to_next(fert, fertilizer_to_water);
+		size_t light = map_to_next(water, water_to_light);
+		size_t temp = map_to_next(light, light_to_temperature);
+		size_t humid = map_to_next(temp, temperature_to_humidity);
+		size_t loc = map_to_next(humid, humidity_to_location);
+
+		if (loc < lowest_loc_2)
+		{
+			lowest_loc_2 = loc;
+			low_seed = seed;
+		}
 
 		
 	}
 
-	retval.part2 = result_loc;
+	retval.part2 = lowest_loc_2;
 
 	return retval;
 }
